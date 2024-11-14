@@ -1,6 +1,7 @@
 package com.umaxcode.spring_boot_essentials_with_crud.service;
 
 import com.umaxcode.spring_boot_essentials_with_crud.model.dto.UserRequestDTO;
+import com.umaxcode.spring_boot_essentials_with_crud.model.dto.UserResponseDTO;
 import com.umaxcode.spring_boot_essentials_with_crud.model.entity.User;
 import com.umaxcode.spring_boot_essentials_with_crud.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -40,11 +41,11 @@ class UserServiceTest {
 
         when(userRepository.save(any(User.class))).thenReturn(user);
 
-        User result = userService.addUser(request);
+        UserResponseDTO result = userService.addUser(request);
 
         assertNotNull(result);
-        assertEquals("maxwell", result.getUsername());
-        assertEquals("password123", result.getPassword());
+        assertEquals("maxwell", result.username());
+        assertEquals("password123", result.password());
         verify(userRepository, times(1)).save(any(User.class));
     }
 
@@ -54,11 +55,11 @@ class UserServiceTest {
         User user = new User("maxwell", "password123");
         when(userRepository.findById(id)).thenReturn(Optional.of(user));
 
-        User result = userService.findUserById(id);
+        UserResponseDTO result = userService.findUserById(id);
 
         assertNotNull(result);
-        assertEquals("maxwell", result.getUsername());
-        assertEquals("password123", result.getPassword());
+        assertEquals("maxwell", result.username());
+        assertEquals("password123", result.password());
         verify(userRepository, times(1)).findById(id);
     }
 
@@ -82,7 +83,7 @@ class UserServiceTest {
 
         when(userRepository.findAll()).thenReturn(users);
 
-        List<User> result = userService.findAllUsers();
+        List<UserResponseDTO> result = userService.findAllUsers();
 
         assertNotNull(result);
         assertEquals(2, result.size());
@@ -99,11 +100,11 @@ class UserServiceTest {
         when(userRepository.findById(id)).thenReturn(Optional.of(existingUser));
         when(userRepository.save(any(User.class))).thenReturn(updatedUser);
 
-        User result = userService.updateUser(id, request);
+        UserResponseDTO result = userService.updateUser(id, request);
 
         assertNotNull(result);
-        assertEquals("new-maxwell", result.getUsername());
-        assertEquals("new-password123", result.getPassword());
+        assertEquals("new-maxwell", result.username());
+        assertEquals("new-password123", result.password());
         verify(userRepository, times(1)).findById(id);
         verify(userRepository, times(1)).save(existingUser);
     }

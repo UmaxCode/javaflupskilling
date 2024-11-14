@@ -2,7 +2,7 @@ package com.umaxcode.spring_boot_essentials_with_crud.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.umaxcode.spring_boot_essentials_with_crud.model.dto.UserRequestDTO;
-import com.umaxcode.spring_boot_essentials_with_crud.model.entity.User;
+import com.umaxcode.spring_boot_essentials_with_crud.model.dto.UserResponseDTO;
 import com.umaxcode.spring_boot_essentials_with_crud.service.UserService;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -36,11 +36,10 @@ class UserControllerTest {
     @Test
     void addUser_ShouldReturnCreatedUser_WhenRequestIsValid() throws Exception {
         UserRequestDTO request = new UserRequestDTO("maxwell", "password123");
-        User user = new User("maxwell", "password123");
         String id = UUID.randomUUID().toString();
-        user.setId(id);
+        UserResponseDTO response = new UserResponseDTO(id, "maxwell", "password123");
 
-        when(userService.addUser(any(UserRequestDTO.class))).thenReturn(user);
+        when(userService.addUser(any(UserRequestDTO.class))).thenReturn(response);
 
         mockMvc.perform(MockMvcRequestBuilders.post("/users")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -54,10 +53,10 @@ class UserControllerTest {
     @Test
     void getUser_ShouldReturnUser_WhenUserExists() throws Exception {
         String id = UUID.randomUUID().toString();
-        User user = new User("maxwell", "password123");
-        user.setId(id);
 
-        when(userService.findUserById(id)).thenReturn(user);
+        UserResponseDTO response = new UserResponseDTO(id, "maxwell", "password123");
+
+        when(userService.findUserById(id)).thenReturn(response);
 
         mockMvc.perform(MockMvcRequestBuilders.get("/users/{id}", id)
                         .accept(MediaType.APPLICATION_JSON))
@@ -71,19 +70,18 @@ class UserControllerTest {
     void getAllUsers_ShouldReturnListOfUsers() throws Exception {
 
         String id1 = UUID.randomUUID().toString();
-        User user1 = new User("maxwell1", "password123");
-        user1.setId(id1);
+        UserResponseDTO user1 = new UserResponseDTO(id1, "maxwell", "password123");
 
         String id2 = UUID.randomUUID().toString();
-        User user2 = new User("maxwell2", "password456");
-        user2.setId(id2);
+        UserResponseDTO user2 = new UserResponseDTO(id2, "maxwell2", "password456");
 
-        List<User> users = Arrays.asList(
+
+        List<UserResponseDTO> response = Arrays.asList(
                 user1,
                 user2
         );
 
-        when(userService.findAllUsers()).thenReturn(users);
+        when(userService.findAllUsers()).thenReturn(response);
 
         mockMvc.perform(MockMvcRequestBuilders.get("/users")
                         .accept(MediaType.APPLICATION_JSON))
@@ -97,10 +95,9 @@ class UserControllerTest {
     void updateUser_ShouldReturnUpdatedUser_WhenRequestIsValid() throws Exception {
         String id = UUID.randomUUID().toString();
         UserRequestDTO request = new UserRequestDTO("new-maxwell", "new-password");
-        User updatedUser = new User("new-maxwell", "new-password");
-        updatedUser.setId(id);
+        UserResponseDTO updatedUserResponse = new UserResponseDTO(id,"new-maxwell", "new-password");
 
-        when(userService.updateUser(id, request)).thenReturn(updatedUser);
+        when(userService.updateUser(id, request)).thenReturn(updatedUserResponse);
 
         mockMvc.perform(MockMvcRequestBuilders.put("/users/{id}", id)
                         .contentType(MediaType.APPLICATION_JSON)

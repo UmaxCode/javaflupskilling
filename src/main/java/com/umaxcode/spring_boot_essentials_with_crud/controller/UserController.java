@@ -1,7 +1,7 @@
 package com.umaxcode.spring_boot_essentials_with_crud.controller;
 
 import com.umaxcode.spring_boot_essentials_with_crud.model.dto.UserRequestDTO;
-import com.umaxcode.spring_boot_essentials_with_crud.model.entity.User;
+import com.umaxcode.spring_boot_essentials_with_crud.model.dto.UserResponseDTO;
 import com.umaxcode.spring_boot_essentials_with_crud.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,23 +20,23 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<User> addUser(@RequestBody UserRequestDTO request) {
+    public ResponseEntity<UserResponseDTO> addUser(@RequestBody UserRequestDTO request) {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(this.userService.addUser(request));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<User> getUser(@PathVariable("id") String id) {
+    public ResponseEntity<UserResponseDTO> getUser(@PathVariable("id") String id) {
         return ResponseEntity.ok(this.userService.findUserById(id));
     }
 
     @GetMapping
-    public ResponseEntity<List<User>> getAllUsers() {
+    public ResponseEntity<List<UserResponseDTO>> getAllUsers() {
         return ResponseEntity.ok(this.userService.findAllUsers());
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<User> updateUser(@PathVariable("id") String id, @RequestBody UserRequestDTO request) {
+    public ResponseEntity<UserResponseDTO> updateUser(@PathVariable("id") String id, @RequestBody UserRequestDTO request) {
         return ResponseEntity.ok(this.userService.updateUser(id, request));
     }
 

@@ -1,6 +1,7 @@
 package com.umaxcode.spring_boot_essentials_with_crud.service;
 
 import com.umaxcode.spring_boot_essentials_with_crud.model.dto.UserRequestDTO;
+import com.umaxcode.spring_boot_essentials_with_crud.model.dto.UserResponseDTO;
 import com.umaxcode.spring_boot_essentials_with_crud.model.entity.User;
 import com.umaxcode.spring_boot_essentials_with_crud.repository.UserRepository;
 import org.springframework.stereotype.Service;
@@ -32,9 +33,10 @@ public class UserService {
      * @param request the data transfer object containing user details (username and password)
      * @return the saved {@link User} object containing the generated ID and provided details
      */
-    public User addUser(UserRequestDTO request) {
+    public UserResponseDTO addUser(UserRequestDTO request) {
         User user = new User(request.username(), request.password());
-        return this.userRepository.save(user);
+        User savedUser = this.userRepository.save(user);
+        return new UserResponseDTO(user.getId(), savedUser.getUsername(), savedUser.getPassword());
     }
 
     /**
@@ -44,12 +46,9 @@ public class UserService {
      * @return the {@link User} object if found
      * @throws IllegalArgumentException if no user is found with the specified ID
      */
-    public User findUserById(String id) {
-        Optional<User> optionalUser = this.userRepository.findById(id);
-        if (optionalUser.isPresent()) {
-            return optionalUser.get();
-        }
-        throw new IllegalArgumentException("User not found");
+    public UserResponseDTO findUserById(String id) {
+        User user = findById(id);
+        return new UserResponseDTO(user.getId(), user.getUsername(), user.getPassword());
     }
 
     /**
@@ -57,8 +56,11 @@ public class UserService {
      *
      * @return a list of all {@link User} objects available in the repository
      */
-    public List<User> findAllUsers() {
-        return this.userRepository.findAll();
+    public List<UserResponseDTO> findAllUsers() {
+        return this.userRepository.findAll()
+                .stream().map(
+                        user -> new UserResponseDTO(user.getId(), user.getUsername(), user.getPassword())
+                ).toList();
     }
 
     /**
@@ -69,11 +71,12 @@ public class UserService {
      * @param request the data transfer object containing updated user details
      * @return the updated {@link User} object with the new information
      */
-    public User updateUser(String id, UserRequestDTO request) {
-        User user = this.findUserById(id);
+    public UserResponseDTO updateUser(String id, UserRequestDTO request) {
+        User user = findById(id);
         user.setUsername(request.username() != null ? request.username() : user.getUsername());
         user.setPassword(request.password() != null ? request.password() : user.getPassword());
-        return this.userRepository.save(user);
+        User updatedUser = this.userRepository.save(user);
+        return new UserResponseDTO(updatedUser.getId(), updatedUser.getUsername(), updatedUser.getPassword());
     }
 
     /**
@@ -83,8 +86,16 @@ public class UserService {
      * @throws IllegalArgumentException if no user is found with the specified ID
      */
     public void deleteUser(String id) {
-        User user = this.findUserById(id);
+        User user = findById(id);
         this.userRepository.delete(user);
+    }
+
+    private User findById(String id) {
+        Optional<User> optionalUser = this.userRepository.findById(id);
+        if (optionalUser.isPresent()) {
+            return optionalUser.get();
+        }
+        throw new IllegalArgumentException("User not found");
     }
 
 }
