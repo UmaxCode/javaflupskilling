@@ -13,6 +13,9 @@ public class UserRepositoryImpl implements UserRepository {
 
     ArrayList<User> users = new ArrayList<>();
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public User save(User user) {
         if (!isAlreadySaved(user)) {
@@ -27,6 +30,9 @@ public class UserRepositoryImpl implements UserRepository {
         return users.contains(user);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Optional<User> findById(String id) {
         for (User user : users) {
@@ -37,11 +43,17 @@ public class UserRepositoryImpl implements UserRepository {
         return Optional.empty();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public List<User> findAll() {
         return users;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void delete(User user) {
         users.remove(user);
