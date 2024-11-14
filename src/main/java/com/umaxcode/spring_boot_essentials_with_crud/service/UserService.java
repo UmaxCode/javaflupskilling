@@ -31,7 +31,7 @@ public class UserService {
      * Creates and saves a new user using the details provided in the request.
      *
      * @param request the data transfer object containing user details (username and password)
-     * @return the saved {@link User} object containing the generated ID and provided details
+     * @return the saved {@link UserResponseDTO} object containing the generated ID and provided details
      */
     public UserResponseDTO addUser(UserRequestDTO request) {
         User user = new User(request.username(), request.password());
@@ -43,7 +43,7 @@ public class UserService {
      * Retrieves a user by their unique ID.
      *
      * @param id the unique identifier of the user to retrieve
-     * @return the {@link User} object if found
+     * @return the {@link UserResponseDTO} object if found
      * @throws IllegalArgumentException if no user is found with the specified ID
      */
     public UserResponseDTO findUserById(String id) {
@@ -54,7 +54,7 @@ public class UserService {
     /**
      * Retrieves all users stored in the repository.
      *
-     * @return a list of all {@link User} objects available in the repository
+     * @return a list of all {@link UserResponseDTO} objects available in the repository
      */
     public List<UserResponseDTO> findAllUsers() {
         return this.userRepository.findAll()
@@ -69,7 +69,7 @@ public class UserService {
      *
      * @param id      the unique identifier of the user to update
      * @param request the data transfer object containing updated user details
-     * @return the updated {@link User} object with the new information
+     * @return the updated {@link UserResponseDTO} object with the new information
      */
     public UserResponseDTO updateUser(String id, UserRequestDTO request) {
         User user = findById(id);
