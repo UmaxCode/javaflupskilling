@@ -11,12 +11,18 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Implementation of the {@link ProductService}.
+ */
 @Service
 @AllArgsConstructor
 public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ProductResponseDTO addProduct(ProductRequestDTO request) {
 
@@ -34,6 +40,9 @@ public class ProductServiceImpl implements ProductService {
                 .build();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ProductResponseDTO findProductById(String id) {
         Product product = findById(id);
@@ -45,6 +54,9 @@ public class ProductServiceImpl implements ProductService {
                 .build();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public List<ProductResponseDTO> findAllProducts() {
         return productRepository.findAll()
@@ -56,6 +68,9 @@ public class ProductServiceImpl implements ProductService {
                 .toList();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ProductResponseDTO updateProduct(String id, ProductRequestDTO request) {
 
@@ -71,6 +86,9 @@ public class ProductServiceImpl implements ProductService {
                 .build();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String deleteProduct(String id) {
         Product product = findById(id);
@@ -78,6 +96,13 @@ public class ProductServiceImpl implements ProductService {
         return "Product with id = " + id + "is deleted successfully";
     }
 
+    /**
+     * Finds a product by its unique identifier.
+     *
+     * @param id the unique identifier of the product to find.
+     * @return the found {@link Product}.
+     * @throws ServiceException if no product with the given ID is found.
+     */
     private Product findById(String id) {
         Optional<Product> productOptional = productRepository.findById(id);
         if (productOptional.isPresent()) {

@@ -8,6 +8,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+/**
+ * Implementation of the {@link ProductRepository}.
+ */
 @Repository
 public class ProductRepositoryImpl implements ProductRepository {
 
@@ -17,6 +20,9 @@ public class ProductRepositoryImpl implements ProductRepository {
         this.products = new ArrayList<>();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Product save(Product product) {
         if (!alreadyExists(product)) {
@@ -30,17 +36,26 @@ public class ProductRepositoryImpl implements ProductRepository {
         return this.products.contains(product);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Optional<Product> findById(String id) {
         return this.products.stream()
                 .filter(product -> product.getId().equals(id)).findFirst();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public List<Product> findAll() {
         return this.products;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void delete(Product product) {
         this.products.remove(product);
