@@ -27,17 +27,17 @@ public class SpringBootEssentialsWithCrudApplication {
     @Bean
     public CommandLineRunner commandLineRunner(ApplicationContext ctx) {
         return args -> {
-            ConfigurationProp configurationProp = ctx.getBean(ConfigurationProp.class);
-            System.out.println(configurationProp.getGreeting());
-            System.out.println(configurationProp.getRand());
-            System.out.println(configurationProp.getSecurity().getUsername());
-            System.out.println(configurationProp.getSecurity().getPassword());
-            System.out.println(configurationProp.getSecurity().getRoles());
-            System.out.println(configurationProp.getSecurity().getPermissions());
+//            ConfigurationProp configurationProp = ctx.getBean(ConfigurationProp.class);
+//            System.out.println(configurationProp.getGreeting());
+//            System.out.println(configurationProp.getRand());
+//            System.out.println(configurationProp.getSecurity().getUsername());
+//            System.out.println(configurationProp.getSecurity().getPassword());
+//            System.out.println(configurationProp.getSecurity().getRoles());
+//            System.out.println(configurationProp.getSecurity().getPermissions());
 
-            ProfileComponent profileComponent = ctx.getBean(ProfileComponent.class);
-
-            profileComponent.display();
+//            ProfileComponent profileComponent = ctx.getBean(ProfileComponent.class);
+//
+//            profileComponent.display();
         };
     }
 

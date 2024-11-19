@@ -13,7 +13,7 @@ import java.util.Map;
 @Getter
 @Setter
 @ConfigurationProperties(prefix = "application")
-@Component("prop")
+@Component
 public class ConfigurationProp {
 
     private String greeting;
